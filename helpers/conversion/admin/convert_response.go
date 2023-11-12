@@ -7,6 +7,7 @@ import (
 
 func AdminRegisterResponse(res *admin.Admin) dto.ResAdminRegister {
 	return dto.ResAdminRegister{
+		ID:       res.ID,
 		Username: res.Username,
 		Email:    res.Email,
 	}
@@ -14,6 +15,7 @@ func AdminRegisterResponse(res *admin.Admin) dto.ResAdminRegister {
 
 func AdminLoginResponse(res *admin.Admin) dto.ResAdminLogin {
 	return dto.ResAdminLogin{
+		ID:       res.ID,
 		Username: res.Username,
 		Email:    res.Email,
 	}

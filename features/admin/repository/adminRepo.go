@@ -33,7 +33,7 @@ func (r *AdminRepositoryImpl) UpdatePassword(Newadmin *admin.Admin, id int) (*ad
 func (r *AdminRepositoryImpl) FindAll() ([]admin.Admin, error) {
 	admin := []admin.Admin{}
 
-	result := r.db.Find(&admin)
+	result := r.db.Where("delete_at IS NULL").Find(&admin)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -71,7 +71,7 @@ func (r *AdminRepositoryImpl) FindById(id int) (*admin.Admin, error) {
 }
 
 func (r *AdminRepositoryImpl) Delete(id int) error {
-	result := r.db.Table("admins").Where("id = ?", id).Unscoped().Delete(id)
+	result := r.db.Delete(&admin.Admin{}, id)
 	if result.Error != nil {
 		return result.Error
 	}
