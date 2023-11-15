@@ -11,7 +11,7 @@ type Admin struct {
 	Username  string         `gorm:"unique;not null"`
 	Email     string         `gorm:"unique;not null"`
 	Password  string         `gorm:"not null"`
-	CreatetAt time.Time      `gorm:"autoCreateTime"`
+	CreateAt time.Time      `gorm:"autoCreateTime"`
 	UpdateAt  time.Time      `gorm:"autoUpdateTime"`
 	DeleteAt  gorm.DeletedAt `gorm:"index"`
 }
