@@ -22,6 +22,7 @@ func main() {
 
 	// Register routes with the app
 	routes.AdminRoutes(app, DB, validate)
+	routes.UserRoutes(app, DB, validate)
 
 	// Middleware
 	app.Pre(middleware.RemoveTrailingSlash())

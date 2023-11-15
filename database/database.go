@@ -3,6 +3,7 @@ package database
 import (
 	"capstone/config"
 	"capstone/features/admin"
+	"capstone/features/user"
 	"fmt"
 
 	"gorm.io/driver/mysql"
@@ -25,5 +26,5 @@ func InitDB() *gorm.DB {
 }
 
 func migrate(db *gorm.DB) {
-	db.AutoMigrate(admin.Admin{})
+	db.AutoMigrate(admin.Admin{}, user.User{})
 }
