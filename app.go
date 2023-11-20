@@ -2,6 +2,7 @@ package main
 
 import (
 	"capstone/database"
+	"capstone/helpers/middlewares"
 	"capstone/routes"
 	"net/http"
 
@@ -25,21 +26,13 @@ func main() {
 	routes.UserRoutes(app, DB, validate)
 
 	// Middleware
+	app.Use(middlewares.SetupCORS())
 	app.Pre(middleware.RemoveTrailingSlash())
-	app.Use(middleware.CORS())
 	app.Use(middleware.LoggerWithConfig(
 		middleware.LoggerConfig{
 			Format: "method=${method}, uri=${uri}, status=${status}, time=${time_rfc3339}\n",
 		},
 	))
-	
-	//Configure CORS
-	config := middleware.CORSConfig{
-		AllowOrigins: []string{"https://altaresto-staging.vercel.app/"},
-		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
-	}
-	//User Middleware CORS Configuration
-	app.Use(middleware.CORSWithConfig(config))
 
 	// Start the server
 	err := app.Start(":8080")
