@@ -36,7 +36,7 @@ func main() {
 	//Configure CORS
 	config := middleware.CORSConfig{
 		AllowOrigins: []string{"https://altaresto-staging.vercel.app/"},
-		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
+		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
 	}
 	//User Middleware CORS Configuration
 	app.Use(middleware.CORSWithConfig(config))
