@@ -32,6 +32,14 @@ func main() {
 			Format: "method=${method}, uri=${uri}, status=${status}, time=${time_rfc3339}\n",
 		},
 	))
+	
+	//Configure CORS
+	config := middleware.CORSConfig{
+		AllowOrigins: []string{"https://altaresto-staging.vercel.app/"},
+		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
+	}
+	//User Middleware CORS Configuration
+	app.Use(middleware.CORSWithConfig(config))
 
 	// Start the server
 	err := app.Start(":8080")
