@@ -13,3 +13,4 @@ func SetupCORS() echo.MiddlewareFunc {
         AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
     })
 }
+
