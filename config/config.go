@@ -3,8 +3,6 @@ package config
 import (
 	"os"
 	"strconv"
-
-	"github.com/joho/godotenv"
 )
 
 type DatabaseConfig struct {
