@@ -32,7 +32,7 @@ func main() {
 			Format: "method=${method}, uri=${uri}, status=${status}, time=${time_rfc3339}\n",
 		},
 	))
-	middlewares.setupCORS(e)
+	middlewares.setupCORS(app)
 
 	// Start the server
 	err := app.Start(":80")
