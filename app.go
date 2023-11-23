@@ -2,7 +2,6 @@ package main
 
 import (
 	"capstone/database"
-	"capstone/helpers/middlewares"
 	"capstone/routes"
 	"net/http"
 
@@ -26,7 +25,8 @@ func main() {
 	routes.UserRoutes(app, DB, validate)
 
 	// Middleware
-  	middlewares.SetupCORS(app)
+  	// middlewares.SetupCORS(app)
+	app.Use(middleware.CORS())
 	app.Pre(middleware.RemoveTrailingSlash())
 	app.Use(middleware.LoggerWithConfig(
 		middleware.LoggerConfig{
