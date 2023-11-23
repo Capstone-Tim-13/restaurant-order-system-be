@@ -7,9 +7,9 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func SetupCORS() echo.MiddlewareFunc {
-	return middleware.CORSWithConfig(middleware.CORSConfig{
-        AllowOrigins: []string{"https://altaresto-staging.vercel.app"},
-        AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
-    })
+func SetupCORS(app *echo.Echo) {
+	app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete, http.MethodPatch, http.MethodOptions},
+	}))
 }

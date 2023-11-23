@@ -26,7 +26,7 @@ func main() {
 	routes.UserRoutes(app, DB, validate)
 
 	// Middleware
-	app.Use(middlewares.SetupCORS())
+	middlewares.SetupCORS(app)
 	app.Pre(middleware.RemoveTrailingSlash())
 	app.Use(middleware.LoggerWithConfig(
 		middleware.LoggerConfig{
@@ -35,7 +35,7 @@ func main() {
 	))
 
 	// Start the server
-	err := app.Start(":8080")
+	err := app.Start(":80")
 	if err != nil {
 		app.Logger.Fatal(err)
 	}
