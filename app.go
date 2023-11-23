@@ -2,7 +2,6 @@ package main
 
 import (
 	"capstone/database"
-	"capstone/helpers/middlewares"
 	"capstone/routes"
 	"net/http"
 
