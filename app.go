@@ -26,7 +26,7 @@ func main() {
 	routes.UserRoutes(app, DB, validate)
 
 	// Middleware
-	middlewares.SetupCORS(app)
+  middlewares.SetupCORS(app)
 	app.Pre(middleware.RemoveTrailingSlash())
 	app.Use(middleware.LoggerWithConfig(
 		middleware.LoggerConfig{

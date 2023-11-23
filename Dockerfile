@@ -5,3 +5,4 @@ COPY . .
 RUN go build -o alta-resto 
 EXPOSE 80
 CMD ["./alta-resto"]
+
