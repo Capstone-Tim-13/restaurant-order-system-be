@@ -26,13 +26,14 @@ func main() {
 	routes.UserRoutes(app, DB, validate)
 
 	// Middleware
-	middlewares.SetupCORS(app)
+	app.Use(middleware.CORS())
 	app.Pre(middleware.RemoveTrailingSlash())
 	app.Use(middleware.LoggerWithConfig(
 		middleware.LoggerConfig{
 			Format: "method=${method}, uri=${uri}, status=${status}, time=${time_rfc3339}\n",
 		},
 	))
+	middlewares.SetupCORS(app)
 
 	// Start the server
 	err := app.Start(":80")
