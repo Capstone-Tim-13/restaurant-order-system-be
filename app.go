@@ -24,6 +24,7 @@ func main() {
 	// Register routes with the app
 	routes.AdminRoutes(app, DB, validate)
 	routes.UserRoutes(app, DB, validate)
+	routes.CategoryRoutes(app, DB, validate)
 
 	// Middleware
 	app.Use(middleware.CORS())
@@ -37,6 +38,7 @@ func main() {
 
 	// Start the server
 	err := app.Start(":80")
+	//err := app.Start(":8080")
 	if err != nil {
 		app.Logger.Fatal(err)
 	}
