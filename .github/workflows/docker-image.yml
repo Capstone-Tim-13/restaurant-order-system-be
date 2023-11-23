@@ -1,0 +1,44 @@
+name: build, deploy alta-resto in main server
+on: 
+  push: 
+    branches:
+      - main
+jobs:
+  build_docker:
+    name: build and push to docker hub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: docker build
+        run: docker build -t msidik17/alta-resto:1.1.0 .
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: push to docker hub
+        run: docker push msidik17/alta-resto:1.1.0
+  deploy: 
+    name: deployment to EC2 server
+    runs-on: ubuntu-latest
+    needs: build_docker
+    steps: 
+      - uses: actions/checkout@v3
+      - name: login to EC2
+        env:
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{secrets.SSH_HOST}}
+          SSH_USER: ${{secrets.USER_NAME}}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/alta-resto.pem
+          chmod 400 ~/.ssh/alta-resto.pem
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/alta-resto.pem
+            StrictHostKeyChecking=no
+          END
+      - name: login EC2 + docker pull + running container
+        run: ssh staging 'docker rm -f alta-resto-apps && docker pull msidik17/alta-resto:1.1.0 && docker run -p 80:80 -d -e DB_HOST=${{secrets.DB_HOST}} -e DB_USER=${{secrets.DB_USER}} -e DB_PASS=${{secrets.DB_PASS}} -e DB_NAME=${{secrets.DB_NAME}} -e DB_PORT=${{secrets.DB_PORT}}  -e SERVER_PORT=${{secrets.SERVER_PORT}} -e JWT_SECRET_KEY_ADMIN=${{secrets.JWT_SECRET_KEY_ADMIN}} -e JWT_SECRET_KEY_USER=${{secrets.JWT_SECRET_KEY_USER}} --name alta-resto-apps msidik17/alta-resto:1.1.0'
