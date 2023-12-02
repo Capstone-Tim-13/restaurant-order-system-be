@@ -1,6 +1,7 @@
 package main
 
 import (
+	"capstone/config"
 	"capstone/database"
 	"capstone/helpers/middlewares"
 	"capstone/routes"
@@ -14,7 +15,9 @@ import (
 func main() {
 	app := echo.New()
 	validate := validator.New()
+	config := config.LoadDBConfig()
 	DB := database.InitDB()
+	cdn := database.CloudinaryInstance(config)
 
 	// Routes
 	app.GET("/", func(c echo.Context) error {
@@ -25,6 +28,7 @@ func main() {
 	routes.AdminRoutes(app, DB, validate)
 	routes.UserRoutes(app, DB, validate)
 	routes.CategoryRoutes(app, DB, validate)
+	routes.MenuRoutes(app, DB, validate, cdn, config)
 
 	// Middleware
 	app.Use(middleware.CORS())
@@ -37,8 +41,8 @@ func main() {
 	middlewares.SetupCORS(app)
 
 	// Start the server
-	err := app.Start(":80")
-	//err := app.Start(":8080")
+	//err := app.Start(":80")
+	err := app.Start(":8080")
 	if err != nil {
 		app.Logger.Fatal(err)
 	}
