@@ -15,7 +15,7 @@ type Menu struct {
 	Category    category.Category `gorm:"foreignKey:CategoryID"`
 	Description string
 	Price       float32
-	Status      bool
+	Status      bool           `gorm:"default:true"`
 	CreateAt    time.Time      `gorm:"autoCreateTime"`
 	UpdateAt    time.Time      `gorm:"autoUpdateTime"`
 	DeleteAt    gorm.DeletedAt `gorm:"index"`

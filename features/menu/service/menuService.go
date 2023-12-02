@@ -191,3 +191,28 @@ func (s *MenuServiceImpl) Delete(ctx echo.Context, id int) error {
 
 	return nil
 }
+
+func (s *MenuServiceImpl) UpdateStatus(id int, status string) (*dto.ResMenuUpdate ,error) {
+	menus, _ := s.MenuRepository.FindById(id)
+	if menus == nil {
+		return nil, fmt.Errorf("menu Not Found")
+	}
+
+	var data bool
+	if status == "ready" {
+		data = true
+	} else {
+		data = false
+	}
+
+	menus.Status = data
+
+	result, err := s.MenuRepository.Update(menus)
+	if err != nil {
+		return nil, fmt.Errorf("error when updating menu: %s", err.Error())
+	}
+
+	response := conversion.MenuUpdateResponse(result)
+
+	return &response, nil
+}

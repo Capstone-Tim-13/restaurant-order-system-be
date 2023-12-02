@@ -13,6 +13,7 @@ func MenuCreateResponse(res *menu.Menu) dto.ResMenuCreate {
 		CategoryID:  res.CategoryID,
 		Description: res.Description,
 		Price:       res.Price,
+		Status:      res.Status,
 	}
 }
 
@@ -24,5 +25,6 @@ func MenuUpdateResponse(res *menu.Menu) dto.ResMenuUpdate {
 		CategoryID:  res.CategoryID,
 		Description: res.Description,
 		Price:       res.Price,
+		Status:      res.Status,
 	}
 }
