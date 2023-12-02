@@ -151,3 +151,28 @@ func (h *MenuHandlerImpl) Delete() echo.HandlerFunc {
 		return ctx.JSON(http.StatusOK, helpers.SuccessResponse("menu deleted successfully", nil))
 	}
 }
+
+func (h *MenuHandlerImpl) UpdateStatus() echo.HandlerFunc {
+	return func(ctx echo.Context) error {
+		id, err := strconv.Atoi(ctx.Param("id"))
+		if err != nil {
+			return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("invalid menu ID"))
+		}
+
+		var req dto.ReqUpdateStatus
+		if err := ctx.Bind(&req); err != nil {
+			return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("error when parsing data"))
+		}
+
+		result, err := h.MenuService.UpdateStatus(id, req.Status)
+		if err != nil {
+			if strings.Contains(err.Error(), "validation error") {
+				return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("invalid validation"))
+			}
+
+			return ctx.JSON(http.StatusInternalServerError, helpers.ErrorResponse("updating error"))
+		}
+
+		return ctx.JSON(http.StatusOK, helpers.SuccessResponse("successfully update status menu", result))
+	}
+}

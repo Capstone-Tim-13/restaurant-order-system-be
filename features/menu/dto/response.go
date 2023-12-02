@@ -7,6 +7,7 @@ type ResMenuCreate struct {
 	CategoryID  uint    `json:"categoryid"`
 	Description string  `json:"description"`
 	Price       float32 `json:"price"`
+	Status      bool    `json:"status"`
 }
 
 type ResMenuUpdate struct {
@@ -16,4 +17,5 @@ type ResMenuUpdate struct {
 	CategoryID  uint    `json:"categoryid"`
 	Description string  `json:"description"`
 	Price       float32 `json:"price"`
+	Status      bool    `json:"status"`
 }
