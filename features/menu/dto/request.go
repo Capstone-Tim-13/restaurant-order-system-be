@@ -1,7 +1,7 @@
 package dto
 
 type ReqMenuCreate struct {
-	Image       string  `json:"image" form:"image" validate:"required"`
+	Image       string  `json:"image" form:"image"`
 	Name        string  `json:"name" form:"name" validate:"required,min=1"`
 	CategoryID  uint    `json:"categoryid" form:"categoryid" validate:"required"`
 	Description string  `json:"description" form:"description" validate:"required,min=1"`
@@ -9,7 +9,7 @@ type ReqMenuCreate struct {
 }
 
 type ReqMenuUpdate struct {
-	Image       string  `json:"image" form:"image" validate:"required"`
+	Image       string  `json:"image" form:"image"`
 	Name        string  `json:"name" form:"name" validate:"required,min=1"`
 	CategoryID  uint    `json:"categoryid" form:"categoryid" validate:"required"`
 	Description string  `json:"description" form:"description" validate:"required,min=1"`

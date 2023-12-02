@@ -77,7 +77,7 @@ func (h *AdminHandlerImpl) Login(ctx echo.Context) error{
 
 	result.AccessToken = token
 
-	return ctx.JSON(http.StatusCreated, helpers.SuccessResponse("Successfully sign in", result))
+	return ctx.JSON(http.StatusOK, helpers.SuccessResponse("Successfully sign in", result))
 }
 
 func (h *AdminHandlerImpl) Find(ctx echo.Context) error{
