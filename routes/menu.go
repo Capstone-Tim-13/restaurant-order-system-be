@@ -28,6 +28,7 @@ func MenuRoutes(e *echo.Echo, db *gorm.DB, validate *validator.Validate, cdn *cl
 	GroupAdmin.GET("/menu/:id", menuHandler.FindById())
 	GroupAdmin.GET("/menu/name/:name", menuHandler.FindByName())
 	GroupAdmin.GET("/menu/category/:categoryid", menuHandler.FindByCategoryId())
+	GroupAdmin.PUT("/status/:id", menuHandler.UpdateStatus())
 
 	GroupUser := e.Group("/user")
 	GroupUser.Use(echojwt.JWT([]byte(os.Getenv("JWT_SECRET_KEY_USER"))))

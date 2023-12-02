@@ -59,7 +59,7 @@ func (r *MenuRepositoryImpl) UploadImage(ctx context.Context, file multipart.Fil
 }
 
 func (r *MenuRepositoryImpl) Update(Newmenu *menu.Menu) (*menu.Menu, error) {
-	result := r.db.Table("menus").Where("id = ?", Newmenu.ID).Updates(menu.Menu{Name: Newmenu.Name, CategoryID: Newmenu.CategoryID, Description: Newmenu.Description, Price: Newmenu.Price})
+	result := r.db.Table("menus").Where("id = ?", Newmenu.ID).Updates(Newmenu)
 	if result.Error != nil {
 		return nil, result.Error
 	}

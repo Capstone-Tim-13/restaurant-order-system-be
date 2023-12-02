@@ -15,3 +15,7 @@ type ReqMenuUpdate struct {
 	Description string  `json:"description" form:"description" validate:"required,min=1"`
 	Price       float32 `json:"price" form:"price" validate:"required"`
 }
+
+type ReqUpdateStatus struct {
+	Status string `json:"status" form:"status"`
+}

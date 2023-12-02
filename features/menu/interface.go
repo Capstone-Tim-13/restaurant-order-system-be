@@ -27,6 +27,7 @@ type Service interface {
 	FindByName(ctx echo.Context, name string) (*dto.ResMenuCreate, error)
 	FindByCategoryId(ctx echo.Context, categoryId int) ([]dto.ResMenuCreate, error)
 	Delete(ctx echo.Context, id int) error
+	UpdateStatus(id int, status string) (*dto.ResMenuUpdate ,error)
 }
 
 type Handler interface {
@@ -37,4 +38,5 @@ type Handler interface {
 	FindByName() echo.HandlerFunc
 	FindByCategoryId() echo.HandlerFunc
 	Delete() echo.HandlerFunc
+	UpdateStatus() echo.HandlerFunc
 }
