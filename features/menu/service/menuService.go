@@ -104,12 +104,6 @@ func (s *MenuServiceImpl) Update(ctx echo.Context, id int, fileHeader *multipart
 		req.Image = existingMenu.Image
 	}
 
-	// Update the existing menu with the new data
-	// existingMenu.Name = req.Name
-	// existingMenu.CategoryID = req.CategoryID
-	// existingMenu.Description = req.Description
-	// existingMenu.Price = req.Price
-
 	updateData := conversion.MenuUpdateRequest(req)
 	updateData.ID = uint(id)
 	// Save the updated menu to the database
