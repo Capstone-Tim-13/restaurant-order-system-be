@@ -40,26 +40,10 @@ func (r *MenuRepositoryImpl) UploadImage(ctx context.Context, file multipart.Fil
 	}
 
 	return response.SecureURL, nil
-
-	// var file = helpers.OpenFileHeader(fileHeader)
-
-	// ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	// defer cancel()
-
-	// response, err := r.cdn.Upload.Upload(ctx, file, uploader.UploadParams{
-	// 	Folder:   r.config.CDN_FOLDER_NAME,
-	// 	PublicID: name,
-	// })
-	// if err != nil {
-	// 	logrus.Error("Repository: Upload image error,", err)
-	// 	return "", err
-	// }
-
-	// return response.SecureURL, nil
 }
 
 func (r *MenuRepositoryImpl) Update(Newmenu *menu.Menu) (*menu.Menu, error) {
-	result := r.db.Table("menus").Where("id = ?", Newmenu.ID).Updates(Newmenu)
+	result := r.db.Save(Newmenu)
 	if result.Error != nil {
 		return nil, result.Error
 	}
