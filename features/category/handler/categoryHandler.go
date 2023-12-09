@@ -4,6 +4,7 @@ import (
 	"capstone/features/category"
 	"capstone/features/category/dto"
 	"capstone/helpers"
+	conversion "capstone/helpers/conversion/category"
 	"net/http"
 	"strconv"
 	"strings"
@@ -27,7 +28,7 @@ func (h *CategoryHandlerImpl) Create(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("invalid validation"))
 	}
 
-	response, err := h.CategoryService.Create(ctx, category)
+	result, err := h.CategoryService.Create(ctx, category)
 	if err != nil {
 		if strings.Contains(err.Error(), "invalid validation") {
 			return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("invalid validation"))
@@ -39,6 +40,8 @@ func (h *CategoryHandlerImpl) Create(ctx echo.Context) error {
 
 		return ctx.JSON(http.StatusInternalServerError, helpers.ErrorResponse("Create error"))
 	}
+
+	response := conversion.CategoryCreateResponse(result)
 
 	return ctx.JSON(http.StatusCreated, helpers.SuccessResponse("Successfully create", response))
 
@@ -78,13 +81,13 @@ func (h *CategoryHandlerImpl) FindById(ctx echo.Context) error {
 func (h *CategoryHandlerImpl) Delete(ctx echo.Context) error {
 	categoryId := ctx.Param("id")
 	category, err := strconv.Atoi(categoryId)
-	if err != nil{
+	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, helpers.ErrorResponse("invalid param id"))
 	}
 
 	err = h.CategoryService.Delete(ctx, category)
-	if err != nil{
-		if strings.Contains(err.Error(), "category not found"){
+	if err != nil {
+		if strings.Contains(err.Error(), "category not found") {
 			return ctx.JSON(http.StatusNotFound, helpers.ErrorResponse("category not found"))
 		}
 		return ctx.JSON(http.StatusInternalServerError, helpers.ErrorResponse("delete category failed"))
