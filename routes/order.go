@@ -22,11 +22,13 @@ func OrderRoutes(e *echo.Echo, db *gorm.DB, validate *validator.Validate, config
 	GroupAdmin.Use(echojwt.JWT([]byte(os.Getenv("JWT_SECRET_KEY_ADMIN"))))
 	GroupAdmin.GET("/order", orderHandler.FindAll())
 	GroupAdmin.GET("/order/:id", orderHandler.FindById())
-	GroupAdmin.DELETE("/order/delete/id/:id", orderHandler.Delete())
+	GroupAdmin.DELETE("/order/delete/:id", orderHandler.Delete())
+	GroupAdmin.PUT("/order/status/:id", orderHandler.UpdateStatus())
 
 	GroupUser := e.Group("/user")
 	GroupUser.Use(echojwt.JWT([]byte(os.Getenv("JWT_SECRET_KEY_USER"))))
 	GroupUser.POST("/create/order", orderHandler.Create())
 	GroupUser.GET("/order", orderHandler.FindAll())
 	GroupUser.GET("/order/:id", orderHandler.FindById())
+	GroupUser.PUT("/order/update-item", orderHandler.UpdateOrderItem())
 }

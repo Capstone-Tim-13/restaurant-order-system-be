@@ -6,6 +6,7 @@ import (
 	"capstone/helpers"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -74,5 +75,46 @@ func (h *OrderHandlerImpl) Delete() echo.HandlerFunc {
 		}
 
 		return ctx.JSON(http.StatusOK, helpers.SuccessResponse("order deleted successfully", nil))
+	}
+}
+
+func (h *OrderHandlerImpl) UpdateStatus() echo.HandlerFunc {
+	return func(ctx echo.Context) error {
+		id, err := strconv.Atoi(ctx.Param("id"))
+		if err != nil {
+			return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("invalid order ID"))
+		}
+
+		var req dto.ReqUpdateStatus
+		if err := ctx.Bind(&req); err != nil {
+			return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("error when parsing data"))
+		}
+
+		err = h.OrderService.UpdateStatus(id, req.Status)
+		if err != nil {
+			if strings.Contains(err.Error(), "validation error") {
+				return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("invalid validation"))
+			}
+
+			return ctx.JSON(http.StatusInternalServerError, helpers.ErrorResponse("updating error"))
+		}
+
+		return ctx.JSON(http.StatusOK, helpers.SuccessResponse("successfully update status order", nil))
+	}
+}
+
+func (h *OrderHandlerImpl) UpdateOrderItem() echo.HandlerFunc {
+	return func(ctx echo.Context) error {
+		var req dto.ReqUpdateOrderItem
+		if err := ctx.Bind(&req); err != nil {
+			return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("error when parsing data"))
+		}
+
+		result, err := h.OrderService.UpdateOrderItems(req)
+		if err != nil {
+			return ctx.JSON(http.StatusInternalServerError, helpers.ErrorResponse("updating error"))
+		}
+
+		return ctx.JSON(http.StatusOK, helpers.SuccessResponse("successfully update status order", result))
 	}
 }
