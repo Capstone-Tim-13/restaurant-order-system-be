@@ -18,9 +18,11 @@ func main() {
 	config := config.LoadDBConfig()
 	DB := database.InitDB()
 	cdn := database.CloudinaryInstance(config)
+	snapClient := database.MidtransSnapClient(config)
+	coreAPIClient := database.MidtransCoreAPIClient(config)
 
-	// Routes
-	app.GET("/", func(c echo.Context) error {
+		// Routes
+		app.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Welcome To Alta-Resto")
 	})
 
@@ -30,6 +32,7 @@ func main() {
 	routes.CategoryRoutes(app, DB, validate)
 	routes.MenuRoutes(app, DB, validate, cdn, config)
 	routes.OrderRoutes(app, DB, validate, config)
+	routes.PaymentRoutes(app, DB, snapClient, coreAPIClient, validate, config)
 
 	// Middleware
 	app.Use(middleware.CORS())
