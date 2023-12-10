@@ -5,6 +5,8 @@ import (
 	"capstone/features/admin"
 	"capstone/features/category"
 	"capstone/features/menu"
+	"capstone/features/order"
+	"capstone/features/payment"
 	"capstone/features/user"
 	"fmt"
 
@@ -28,5 +30,5 @@ func InitDB() *gorm.DB {
 }
 
 func migrate(db *gorm.DB) {
-	db.AutoMigrate(admin.Admin{}, user.User{}, category.Category{}, menu.Menu{})
+	db.AutoMigrate(admin.Admin{}, user.User{}, category.Category{}, menu.Menu{}, order.Order{}, order.OrderItem{}, payment.Payment{})
 }
