@@ -15,6 +15,7 @@ type DatabaseConfig struct {
 	CDN_API_KEY     string
 	CDN_API_SECRET  string
 	CDN_FOLDER_NAME string
+	SERVER_KEY_MT   string
 }
 
 type ServerConfig struct {
@@ -40,5 +41,6 @@ func LoadDBConfig() DatabaseConfig {
 		CDN_API_KEY:     os.Getenv("CDN_API_KEY"),
 		CDN_API_SECRET:  os.Getenv("CDN_API_SECRET"),
 		CDN_FOLDER_NAME: os.Getenv("CDN_FOLDER_NAME"),
+		SERVER_KEY_MT:   os.Getenv("SERVER_KEY_MT"),
 	}
 }
