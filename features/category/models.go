@@ -1,4 +1,4 @@
-package admin
+package category
 
 import (
 	"time"
@@ -6,11 +6,9 @@ import (
 	"gorm.io/gorm"
 )
 
-type Admin struct {
+type Category struct {
 	ID       uint           `gorm:"PrimaryKey"`
-	Username string         `gorm:"unique;not null"`
-	Email    string         `gorm:"unique;not null"`
-	Password string         `gorm:"not null"`
+	Name     string         `gorm:"unique;Not Null" `
 	CreateAt time.Time      `gorm:"autoCreateTime"`
 	UpdateAt time.Time      `gorm:"autoUpdateTime"`
 	DeleteAt gorm.DeletedAt `gorm:"index"`

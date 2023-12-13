@@ -29,13 +29,13 @@ func (s *AdminServiceImpl) Register(ctx echo.Context, req dto.ReqAdminRegister) 
 
 	// Check Username already exists
 	username, _ := s.AdminRepository.FindByUsername(req.Username)
-	if username != nil{
+	if username != nil {
 		return nil, fmt.Errorf("username already exists")
 	}
 
 	// Check Email already exists
 	email, _ := s.AdminRepository.FindByEmail(req.Email)
-	if email != nil{
+	if email != nil {
 		return nil, fmt.Errorf("email already exists")
 	}
 
@@ -45,7 +45,7 @@ func (s *AdminServiceImpl) Register(ctx echo.Context, req dto.ReqAdminRegister) 
 	// Convert Password to Hash
 	admin.Password = helpers.HashPassword(admin.Password)
 
-	_ , err = s.AdminRepository.Save(admin)
+	_, err = s.AdminRepository.Save(admin)
 	if err != nil {
 		return nil, fmt.Errorf("error When to Register: %s", err.Error())
 	}
@@ -55,7 +55,7 @@ func (s *AdminServiceImpl) Register(ctx echo.Context, req dto.ReqAdminRegister) 
 	return results, nil
 }
 
-func (s *AdminServiceImpl) Login(ctx echo.Context, req dto.ReqAdminLogin) (*admin.Admin, error){
+func (s *AdminServiceImpl) Login(ctx echo.Context, req dto.ReqAdminLogin) (*admin.Admin, error) {
 	// Check if the request is valid
 	err := s.Validate.Struct(req)
 	if err != nil {
@@ -64,7 +64,7 @@ func (s *AdminServiceImpl) Login(ctx echo.Context, req dto.ReqAdminLogin) (*admi
 
 	// Check Email already exists
 	email, _ := s.AdminRepository.FindByEmail(req.Email)
-	if email == nil{
+	if email == nil {
 		return nil, fmt.Errorf("email not found")
 	}
 
@@ -72,19 +72,19 @@ func (s *AdminServiceImpl) Login(ctx echo.Context, req dto.ReqAdminLogin) (*admi
 	admin := conversion.AdminLoginRequest(req)
 
 	// Compare Password
-	if email != nil{
+	if email != nil {
 		err = helpers.ComparePassword(email.Password, admin.Password)
 		if err != nil {
-		return nil, fmt.Errorf("invalid Email and Password")
+			return nil, fmt.Errorf("invalid Email and Password")
 		}
 	} else {
 		return nil, fmt.Errorf("email not found")
 	}
-	
+
 	return email, nil
 }
 
-func (s *AdminServiceImpl) FindAll(ctx echo.Context) ([]admin.Admin, error){
+func (s *AdminServiceImpl) FindAll(ctx echo.Context) ([]admin.Admin, error) {
 	admins, err := s.AdminRepository.FindAll()
 	if err != nil {
 		return nil, fmt.Errorf("admin not found")
@@ -93,7 +93,7 @@ func (s *AdminServiceImpl) FindAll(ctx echo.Context) ([]admin.Admin, error){
 	return admins, nil
 }
 
-func (s *AdminServiceImpl) FindById(ctx echo.Context, id int) (*admin.Admin, error){
+func (s *AdminServiceImpl) FindById(ctx echo.Context, id int) (*admin.Admin, error) {
 	admin, _ := s.AdminRepository.FindById(id)
 	if admin == nil {
 		return nil, fmt.Errorf("admin not found")
@@ -101,7 +101,7 @@ func (s *AdminServiceImpl) FindById(ctx echo.Context, id int) (*admin.Admin, err
 	return admin, nil
 }
 
-func (s *AdminServiceImpl) UpdatePassword(ctx echo.Context, req dto.ReqAdminUpdate, id int)(*admin.Admin, error)  {
+func (s *AdminServiceImpl) UpdatePassword(ctx echo.Context, req dto.ReqAdminUpdate, id int) (*admin.Admin, error) {
 	// Check if the request is valid
 	err := s.Validate.Struct(req)
 	if err != nil {
@@ -139,15 +139,15 @@ func (s *AdminServiceImpl) UpdatePassword(ctx echo.Context, req dto.ReqAdminUpda
 	return nil, fmt.Errorf("no new password provided")
 }
 
-func (s *AdminServiceImpl) Delete(ctx echo.Context, id int) error{
+func (s *AdminServiceImpl) Delete(ctx echo.Context, id int) error {
 	// Check Admin already exists
 	admins, _ := s.AdminRepository.FindById(id)
-	if admins == nil{
+	if admins == nil {
 		return fmt.Errorf("admin Not Found")
 	}
 
 	err := s.AdminRepository.Delete(id)
-	if err != nil{
+	if err != nil {
 		return fmt.Errorf("error when deleting : %s", err)
 	}
 

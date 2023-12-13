@@ -1,4 +1,4 @@
-package admin
+package user
 
 import (
 	"time"
@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Admin struct {
+type User struct {
 	ID       uint           `gorm:"PrimaryKey"`
 	Username string         `gorm:"unique;not null"`
 	Email    string         `gorm:"unique;not null"`

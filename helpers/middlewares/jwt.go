@@ -13,7 +13,7 @@ func GenerateTokenUser(userID uint) (string, error) {
 
 	claims := jwt.MapClaims{
 		"id":   userID,
-		"exp":  time.Now().Add(time.Minute * 30).Unix(),
+		"exp":  time.Now().Add(time.Hour * 24).Unix(),
 		"iat":  time.Now().Unix(),
 		"role": "user",
 	}
@@ -32,7 +32,7 @@ func GenerateTokenAdmin(AdminID uint) (string, error) {
 
 	claims := jwt.MapClaims{
 		"id":   AdminID,
-		"exp":  time.Now().Add(time.Minute * 30).Unix(),
+		"exp":  time.Now().Add(time.Hour * 24).Unix(),
 		"iat":  time.Now().Unix(),
 		"role": "admin",
 	}
