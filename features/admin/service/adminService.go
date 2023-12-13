@@ -108,26 +108,35 @@ func (s *AdminServiceImpl) UpdatePassword(ctx echo.Context, req dto.ReqAdminUpda
 		return nil, helpers.ValidationError(ctx, err)
 	}
 
-	// Check Admin already exists
-	admins, _ := s.AdminRepository.FindById(id)
-	if admins == nil{
-		return nil, fmt.Errorf("admin already exists")
+	// Check if the admin exists
+	existingAdmin, err := s.AdminRepository.FindById(id)
+	if err != nil {
+		return nil, err
+	}
+	if existingAdmin == nil {
+		return nil, fmt.Errorf("admin not found")
 	}
 
 	// Check if there's a new password provided
-	if req.Password != ""{
+	if req.Password != "" {
 		if len(req.Password) < 8 {
-			return nil, fmt.Errorf("password must be at least 8 characters long") 
+			return nil, fmt.Errorf("password must be at least 8 characters long")
 		}
+		// Convert request to models
+		adminToUpdate := conversion.AdminUpdateRequest(req)
+		adminToUpdate.Password = helpers.HashPassword(adminToUpdate.Password)
+
+		// Update the password in the repository
+		updatedAdmin, err := s.AdminRepository.UpdatePassword(adminToUpdate, id)
+		if err != nil {
+			return nil, err
+		}
+
+		return updatedAdmin, nil
 	}
 
-	// Convert request to models
-	admin := conversion.AdminUpdateRequest(req)
-	admin.Password = helpers.HashPassword(admin.Password)
-
-	result, _ := s.AdminRepository.FindByUsername(req.Password)
-
-	return result, nil
+	// If no new password provided, return an error or handle as needed
+	return nil, fmt.Errorf("no new password provided")
 }
 
 func (s *AdminServiceImpl) Delete(ctx echo.Context, id int) error{
