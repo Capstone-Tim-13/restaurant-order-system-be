@@ -59,7 +59,7 @@ func (s *OrderServiceImpl) Create(ctx echo.Context, req dto.CreateOrder) (*dto.R
 		orderItem := conversion.OrderItemsResponse(item)
 		resOrderItems = append(resOrderItems, orderItem)
 	}
-	
+
 	var resOrder = conversion.OrderResponse(*result, resOrderItems)
 
 	return &resOrder, nil
@@ -79,7 +79,7 @@ func (s *OrderServiceImpl) FindAll(ctx echo.Context) ([]dto.ResOrder, error) {
 			orderItem := conversion.OrderItemsResponse(item)
 			resOrderItems = append(resOrderItems, orderItem)
 		}
-		
+
 		var resOrder = conversion.OrderResponse(data, resOrderItems)
 		resOrders = append(resOrders, resOrder)
 	}
@@ -98,7 +98,7 @@ func (s *OrderServiceImpl) FindById(id int) (*dto.ResOrder, error) {
 		orderItem := conversion.OrderItemsResponse(item)
 		resOrderItems = append(resOrderItems, orderItem)
 	}
-	
+
 	var resOrder = conversion.OrderResponse(*result, resOrderItems)
 
 	return &resOrder, nil
@@ -169,7 +169,7 @@ func (s *OrderServiceImpl) UpdateOrderItems(updateOrderItem dto.ReqUpdateOrderIt
 		orderItem := conversion.OrderItemsResponse(item)
 		resOrderItems = append(resOrderItems, orderItem)
 	}
-	
+
 	var resOrder = conversion.OrderResponse(*result, resOrderItems)
 
 	return &resOrder, nil
