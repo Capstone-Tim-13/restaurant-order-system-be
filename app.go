@@ -33,6 +33,7 @@ func main() {
 	routes.MenuRoutes(app, DB, validate, cdn, config)
 	routes.OrderRoutes(app, DB, validate, config)
 	routes.PaymentRoutes(app, DB, snapClient, coreAPIClient, validate, config)
+	routes.FeedbackRoutes(app, DB, validate)
 
 	// Middleware
 	app.Use(middleware.CORS())
