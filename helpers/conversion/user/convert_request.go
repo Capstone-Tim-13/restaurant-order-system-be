@@ -13,13 +13,6 @@ func UserRegisterRequest(req dto.ReqUserRegister) *user.User {
 	}
 }
 
-func UserLoginRequest(req dto.ReqUserLogin) *user.User {
-	return &user.User{
-		Email:    req.Email,
-		Password: req.Password,
-	}
-}
-
 func UserUpdateRequestPass(req dto.ReqUserUpdatePass) *user.User {
 	return &user.User{
 		Password: req.Password,
