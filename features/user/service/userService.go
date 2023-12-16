@@ -107,10 +107,13 @@ func (s *UserServiceImpl) UpdatePassword(ctx echo.Context, req dto.ReqUserUpdate
 		return nil, helpers.ValidationError(ctx, err)
 	}
 
-	// Check Admin already exists
-	users, _ := s.UserRepository.FindById(id)
-	if users == nil {
-		return nil, fmt.Errorf("user already exists")
+	// Check if the user exists
+	existingUser, err := s.UserRepository.FindById(id)
+	if err != nil {
+		return nil, err
+	}
+	if existingUser == nil {
+		return nil, fmt.Errorf("user not found")
 	}
 
 	// Check if there's a new password provided
@@ -118,15 +121,21 @@ func (s *UserServiceImpl) UpdatePassword(ctx echo.Context, req dto.ReqUserUpdate
 		if len(req.Password) < 8 {
 			return nil, fmt.Errorf("password must be at least 8 characters long")
 		}
+		// Convert request to models
+		userToUpdate := conversion.UserUpdateRequest(req)
+		userToUpdate.Password = helpers.HashPassword(userToUpdate.Password)
+
+		// Update the password in the repository
+		updatedUser, err := s.UserRepository.UpdatePassword(userToUpdate, id)
+		if err != nil {
+			return nil, err
+		}
+
+		return updatedUser, nil
 	}
 
-	// Convert request to models
-	user := conversion.UserUpdateRequestPass(req)
-	user.Password = helpers.HashPassword(user.Password)
-
-	result, _ := s.UserRepository.FindByUsername(req.Password)
-
-	return result, nil
+	// If no new password provided, return an error or handle as needed
+	return nil, fmt.Errorf("no new password provided")
 }
 
 func (s *UserServiceImpl) Delete(ctx echo.Context, id int) error {

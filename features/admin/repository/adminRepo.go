@@ -23,7 +23,7 @@ func (r *AdminRepositoryImpl) Save(Newadmin *admin.Admin) (*admin.Admin, error) 
 }
 
 func (r *AdminRepositoryImpl) UpdatePassword(Newadmin *admin.Admin, id int) (*admin.Admin, error) {
-	result := r.db.Table("admins").Where("id= ?", id).Updates(admin.Admin{Password: Newadmin.Password})
+	result := r.db.Table("admins").Where("id = ?", id).Updates(map[string]interface{}{"password": Newadmin.Password})
 	if result.Error != nil {
 		return nil, result.Error
 	}
