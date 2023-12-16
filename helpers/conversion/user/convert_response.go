@@ -7,9 +7,11 @@ import (
 
 func UserRegisterResponse(res *user.User) dto.ResUserRegister {
 	return dto.ResUserRegister{
-		ID:       res.ID,
-		Username: res.Username,
-		Email:    res.Email,
+		ID:        res.ID,
+		Username:  res.Username,
+		Email:     res.Email,
+		NoHp:      res.NoHp,
+		BirthDate: res.BirthDate,
 	}
 }
 
