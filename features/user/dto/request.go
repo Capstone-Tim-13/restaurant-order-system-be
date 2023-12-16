@@ -13,6 +13,6 @@ type ReqUserLogin struct {
 	Password string `json:"password" form:"password" validate:"required,min=8"`
 }
 
-type ReqUserUpdate struct {
+type ReqUserUpdatePass struct {
 	Password string `json:"password" form:"password" validate:"required,min=8"`
 }

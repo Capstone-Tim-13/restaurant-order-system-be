@@ -90,6 +90,7 @@ func (h *UserHandlerImpl) Find(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, helpers.SuccessResponse("Successfully Find Data User", response))
 }
 
+
 func (h *UserHandlerImpl) UpdatePassword(ctx echo.Context) error {
 	userId := ctx.Param("id")
 	user, err := strconv.Atoi(userId)
@@ -97,7 +98,7 @@ func (h *UserHandlerImpl) UpdatePassword(ctx echo.Context) error {
 		return ctx.JSON(http.StatusInternalServerError, helpers.ErrorResponse("invalid param id"))
 	}
 
-	request := dto.ReqUserUpdate{}
+	request := dto.ReqUserUpdatePass{}
 	err = ctx.Bind(&request)
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("invalid client input"))
@@ -122,16 +123,16 @@ func (h *UserHandlerImpl) UpdatePassword(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, helpers.SuccessResponse("success update password", result))
 }
 
-func (h *UserHandlerImpl) Delete(ctx echo.Context) error{
+func (h *UserHandlerImpl) Delete(ctx echo.Context) error {
 	userId := ctx.Param("id")
 	user, err := strconv.Atoi(userId)
-	if err != nil{
+	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, helpers.ErrorResponse("invalid param id"))
 	}
 
 	err = h.UserService.Delete(ctx, user)
-	if err != nil{
-		if strings.Contains(err.Error(), "user not found"){
+	if err != nil {
+		if strings.Contains(err.Error(), "user not found") {
 			return ctx.JSON(http.StatusNotFound, helpers.ErrorResponse("user not found"))
 		}
 		return ctx.JSON(http.StatusInternalServerError, helpers.ErrorResponse("delete user failed"))

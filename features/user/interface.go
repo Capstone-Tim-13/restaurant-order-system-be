@@ -8,6 +8,7 @@ import (
 
 type Repository interface {
 	Save(Newuser *User) (*User, error)
+	Update(User *User, id int) (*User, error)
 	UpdatePassword(Newuser *User, id int) (*User, error)
 	FindAll() ([]User, error)
 	FindByUsername(username string) (*User, error)
@@ -21,7 +22,7 @@ type Service interface {
 	Login(ctx echo.Context, req dto.ReqUserLogin) (*User, error)
 	FindAll(ctx echo.Context) ([]User, error)
 	FindById(ctx echo.Context, id int) (*User, error)
-	UpdatePassword(ctx echo.Context, req dto.ReqUserUpdate, id int) (*User, error)
+	UpdatePassword(ctx echo.Context, req dto.ReqUserUpdatePass, id int) (*User, error)
 	Delete(ctx echo.Context, id int) error
 }
 
