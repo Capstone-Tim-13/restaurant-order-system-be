@@ -7,9 +7,16 @@ import (
 
 func UserRegisterRequest(req dto.ReqUserRegister) *user.User {
 	return &user.User{
-		Username:  req.Username,
-		Email:     req.Email,
-		Password:  req.Password,
+		Username: req.Username,
+		Email:    req.Email,
+		Password: req.Password,
+	}
+}
+
+func UserLoginRequest(req dto.ReqUserLogin) *user.User {
+	return &user.User{
+		Email:    req.Email,
+		Password: req.Password,
 	}
 }
 

@@ -122,7 +122,7 @@ func (s *UserServiceImpl) UpdatePassword(ctx echo.Context, req dto.ReqUserUpdate
 			return nil, fmt.Errorf("password must be at least 8 characters long")
 		}
 		// Convert request to models
-		userToUpdate := conversion.UserUpdateRequest(req)
+		userToUpdate := conversion.UserUpdateRequestPass(req)
 		userToUpdate.Password = helpers.HashPassword(userToUpdate.Password)
 
 		// Update the password in the repository
