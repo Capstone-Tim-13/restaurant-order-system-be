@@ -22,7 +22,7 @@ func UserLoginRequest(req dto.ReqUserLogin) *user.User {
 	}
 }
 
-func UserUpdateRequest(req dto.ReqUserUpdate) *user.User {
+func UserUpdateRequestPass(req dto.ReqUserUpdatePass) *user.User {
 	return &user.User{
 		Password: req.Password,
 	}

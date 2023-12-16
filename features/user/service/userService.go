@@ -100,7 +100,7 @@ func (s *UserServiceImpl) FindById(ctx echo.Context, id int) (*user.User, error)
 	return user, nil
 }
 
-func (s *UserServiceImpl) UpdatePassword(ctx echo.Context, req dto.ReqUserUpdate, id int) (*user.User, error) {
+func (s *UserServiceImpl) UpdatePassword(ctx echo.Context, req dto.ReqUserUpdatePass, id int) (*user.User, error) {
 	// Check if the request is valid
 	err := s.Validate.Struct(req)
 	if err != nil {
