@@ -10,8 +10,6 @@ func UserRegisterResponse(res *user.User) dto.ResUserRegister {
 		ID:        res.ID,
 		Username:  res.Username,
 		Email:     res.Email,
-		NoHp:      res.NoHp,
-		BirthDate: res.BirthDate,
 	}
 }
 
