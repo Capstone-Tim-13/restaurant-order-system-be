@@ -22,6 +22,14 @@ func (r *UserRepositoryImpl) Save(Newuser *user.User) (*user.User, error){
 	return Newuser, nil
 }
 
+func (r *UserRepositoryImpl) Update(Newuser *user.User, id int) (*user.User, error) {
+	result := r.db.Table("users").Save(Newuser)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return Newuser, nil
+}
+
 func (r *UserRepositoryImpl) UpdatePassword(Newuser *user.User, id int) (*user.User, error){
 	result := r.db.Table("users").Where("id = ?", id).Updates(user.User{Password: Newuser.Password})
 	if result.Error != nil {
