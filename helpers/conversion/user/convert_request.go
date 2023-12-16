@@ -10,8 +10,6 @@ func UserRegisterRequest(req dto.ReqUserRegister) *user.User {
 		Username:  req.Username,
 		Email:     req.Email,
 		Password:  req.Password,
-		NoHp:      req.NoHp,
-		BirthDate: req.BirthDate,
 	}
 }
 
