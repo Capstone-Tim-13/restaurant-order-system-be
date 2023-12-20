@@ -20,7 +20,7 @@ func NewCategoryService(categoryRepository category.Repository, validate *valida
 	return &CategoryServiceImpl{CategoryRepository: categoryRepository, Validate: validate}
 }
 
-func (s *CategoryServiceImpl) Create(ctx echo.Context, req dto.ReqCategoryCreate) (*category.Category, error) {
+func (s *CategoryServiceImpl) Create(ctx echo.Context, req dto.ReqCategoryCreate) (*dto.ResCategoryCreate, error) {
 	// Check if the request is valid
 	err := s.Validate.Struct(req)
 	if err != nil {
@@ -35,15 +35,19 @@ func (s *CategoryServiceImpl) Create(ctx echo.Context, req dto.ReqCategoryCreate
 
 	// Convert Request to Models
 	category := conversion.CategoryCreateRequest(req)
+	if err != nil {
+		return nil, fmt.Errorf("error converting request to category model: %s", err.Error())
+	}
 
-	_ , err = s.CategoryRepository.Save(category)
+	results , err := s.CategoryRepository.Save(category)
 	if err != nil {
 		return nil, fmt.Errorf("error When to Register: %s", err.Error())
 	}
 
-	results, _ := s.CategoryRepository.FindByName(req.Name)
+	response := conversion.CategoryCreateResponse(results)
+	// results, _ := s.CategoryRepository.FindByName(req.Name)
 
-	return results, nil
+	return &response, nil
 }
 
 func (s *CategoryServiceImpl) FindAll(ctx echo.Context) ([]category.Category, error) {

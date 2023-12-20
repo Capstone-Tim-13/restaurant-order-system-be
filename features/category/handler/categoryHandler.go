@@ -4,7 +4,6 @@ import (
 	"capstone/features/category"
 	"capstone/features/category/dto"
 	"capstone/helpers"
-	conversion "capstone/helpers/conversion/category"
 	"net/http"
 	"strconv"
 	"strings"
@@ -33,17 +32,13 @@ func (h *CategoryHandlerImpl) Create(ctx echo.Context) error {
 		if strings.Contains(err.Error(), "invalid validation") {
 			return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("invalid validation"))
 		}
-
 		if strings.Contains(err.Error(), "already exists") {
 			return ctx.JSON(http.StatusBadRequest, helpers.ErrorResponse("already exists"))
 		}
-
 		return ctx.JSON(http.StatusInternalServerError, helpers.ErrorResponse("Create error"))
 	}
 
-	response := conversion.CategoryCreateResponse(result)
-
-	return ctx.JSON(http.StatusCreated, helpers.SuccessResponse("Successfully create", response))
+	return ctx.JSON(http.StatusCreated, helpers.SuccessResponse("Successfully create", result))
 
 }
 

@@ -15,7 +15,7 @@ type Repository interface {
 }
 
 type Service interface {
-	Create(ctx echo.Context, req dto.ReqCategoryCreate) (*Category, error)
+	Create(ctx echo.Context, req dto.ReqCategoryCreate) (*dto.ResCategoryCreate, error)
 	FindAll(ctx echo.Context) ([]Category, error)
 	FindById(ctx echo.Context, id int) (*Category, error)
 	Delete(ctx echo.Context, id int) error
